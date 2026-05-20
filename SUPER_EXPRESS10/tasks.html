@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Tarefas</title>
+
+    <style>
+        body{
+            font-family: Arial;
+            background-color: #f4f4f4;
+            padding: 30px;
+        }
+
+        h1{
+            text-align: center;
+        }
+
+        table{
+            width: 80%;
+            margin: auto;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th, td{
+            padding: 12px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+
+        th{
+            background-color: #007BFF;
+            color: white;
+        }
+
+        tr:nth-child(even){
+            background-color: #f9f9f9;
+        }
+
+        .voltar{
+            display: block;
+            width: 200px;
+            margin: 30px auto;
+            text-align: center;
+            text-decoration: none;
+            background: #007BFF;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>📋 Lista de Tarefas</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Tarefa</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+
+        <tbody id="tabela-tarefas">
+        </tbody>
+    </table>
+
+    <a class="voltar" href="/">Voltar ao início</a>
+
+    <script>
+        fetch('/tasks')
+            .then(response => response.json())
+            .then(data => {
+
+                const tabela = document.getElementById('tabela-tarefas');
+
+                data.forEach(task => {
+
+                    tabela.innerHTML += `
+                        <tr>
+                            <td>${task.id}</td>
+                            <td>${task.task}</td>
+                            <td>${task.status}</td>
+                        </tr>
+                    `;
+                });
+            });
+    </script>
+
+</body>
+</html>

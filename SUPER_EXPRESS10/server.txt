@@ -1,0 +1,87 @@
+const express = require('express');
+const sqlite3 = require('sqlite3').verbose(); 
+
+
+const app = express();
+
+app.use(express.static(__dirname));
+
+// SERVIDOR
+app.listen(3000, () => {
+    console.log("Servidor SQLite no ar");
+});
+
+// CONEXÃO COM SQLITE
+const connection = new sqlite3.Database('./database.db', (error) => {
+    if(error){
+        console.error('Erro na conexão ao SQLite: ' + error.message);
+        return;       
+    }
+    console.log('Conexão com SQLite (arquivo local) com sucesso!');
+});
+
+// CRIAR TABELA
+connection.serialize(() => {
+    connection.run(`
+        CREATE TABLE IF NOT EXISTS tasks (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            task TEXT,
+            status TEXT
+        )
+    `);
+});
+
+// ==========================
+// ROTAS
+// ==========================
+
+// 🏠 Página inicial
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/inicio.html');
+});
+
+// 📥 Inserir poucas tarefas
+app.get('/insere-poucos', (req, res) => {
+
+    const query = 'INSERT INTO tasks (task, status) VALUES (?, ?)';
+
+    connection.run(query, ['Estudar Node.js', 'pendente']);
+    connection.run(query, ['Fazer atividade SQL', 'em andamento']);
+    connection.run(query, ['Treinar CSS', 'concluído']);
+    connection.run(query, ['Assistir aula de Express', 'pendente']);
+    
+    connection.run(query, ['Revisar JavaScript', 'em andamento'], (err) => {
+        if (err) {
+            return res.send('Erro ao inserir dados');
+        }
+
+        res.sendFile(__dirname + '/insere_poucos.html');
+    });
+});
+
+// 🚀 Inserir muitas tarefas
+app.get('/popula-muitos', (req, res) => {
+
+    const query = 'INSERT INTO tasks (task, status) VALUES (?, ?)';
+    const statusList = ['pendente', 'em andamento', 'concluído'];
+
+    for(let i = 1; i <= 100; i++){
+        const tarefa = `Tarefa automática ${i}`;
+        const statusAleatorio = statusList[Math.floor(Math.random() * statusList.length)];
+
+        connection.run(query, [tarefa, statusAleatorio]);
+    }
+
+    res.sendFile(__dirname + '/popula_muitos.html');
+});
+
+// 📋 Listar tarefas (API)
+app.get('/tasks', (req, res) => {
+    connection.all('SELECT * FROM tasks', (err, rows) => {
+        if (err){
+            return res.send('Erro ao obter tarefas');
+        }
+
+        res.json(rows);
+    });
+});
