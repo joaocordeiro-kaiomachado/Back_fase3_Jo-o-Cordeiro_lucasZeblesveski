@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Tech Products Dashboard</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:
+    radial-gradient(circle at top left,#2563eb 0%,transparent 30%),
+    radial-gradient(circle at bottom right,#06b6d4 0%,transparent 30%),
+    #020617;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:40px;
+}
+
+.container{
+    width:100%;
+    max-width:1200px;
+
+    background:rgba(255,255,255,.05);
+
+    backdrop-filter:blur(20px);
+
+    border:1px solid rgba(255,255,255,.1);
+
+    border-radius:25px;
+
+    padding:40px;
+
+    box-shadow:
+    0 0 30px rgba(37,99,235,.2);
+}
+
+h1{
+    color:white;
+    text-align:center;
+    font-size:3rem;
+}
+
+.subtitulo{
+    text-align:center;
+    color:#94a3b8;
+    margin-top:10px;
+    margin-bottom:40px;
+}
+
+.menu{
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+.btn{
+    text-decoration:none;
+    color:white;
+    padding:15px 30px;
+    border-radius:12px;
+    font-weight:bold;
+    transition:.3s;
+}
+
+.btn:hover{
+    transform:translateY(-4px);
+}
+
+.btn-poucos{
+    background:linear-gradient(135deg,#22c55e,#16a34a);
+}
+
+.btn-muitos{
+    background:linear-gradient(135deg,#2563eb,#06b6d4);
+}
+
+.painel{
+    margin-top:40px;
+    background:rgba(255,255,255,.04);
+    padding:30px;
+    border-radius:20px;
+}
+
+.painel h2{
+    color:white;
+    margin-bottom:20px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+}
+
+th{
+    background:#2563eb;
+    color:white;
+}
+
+th,td{
+    border:1px solid rgba(255,255,255,.1);
+    padding:12px;
+    text-align:center;
+    color:white;
+}
+
+.vazio{
+    color:#cbd5e1;
+    text-align:center;
+    padding:30px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>⚡ Tech Products Dashboard</h1>
+
+<p class="subtitulo">
+Sistema de gerenciamento de produtos com Express.js e SQLite3
+</p>
+
+<div class="menu">
+
+<a href="/popular-poucos" class="btn btn-poucos">
+➕ Popular Poucos
+</a>
+
+<a href="/popular-muitos" class="btn btn-muitos">
+🚀 Popular Muitos
+</a>
+
+</div>
+
+<div class="painel">
+
+<h2>📦 Produtos Cadastrados</h2>
+
+{{TABELA}}
+
+</div>
+
+</div>
+
+</body>
+</html>
